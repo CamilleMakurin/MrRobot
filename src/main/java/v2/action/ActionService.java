@@ -3,12 +3,11 @@ package v2.action;
 
 import v2.action.domain.Action;
 import v2.action.producer.ActionProducer;
+import v2.wrapper.ControlKeyEventWrapper;
 import v2.wrapper.EventType;
 import v2.wrapper.EventWrapper;
-import v2.wrapper.MouseEventWrapper;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -33,7 +32,7 @@ public class ActionService {
         mouseEventWrappers.removeIf(next -> !recordMouseMoves && next.getType().equals(EventType.MOUSE_MOVE));
 
         List<Action> actions = new ArrayList<>();
-        List<EventWrapper>allWrappers = new ArrayList<>();
+        List<EventWrapper> allWrappers = new ArrayList<>();
         allWrappers.addAll(keyBoardEventWrappers);
         allWrappers.addAll(controlEvents);
         allWrappers.addAll(mouseEventWrappers);
@@ -48,16 +47,47 @@ public class ActionService {
         //todo:
         //recalculate when if recording was paused based on control events
         boolean firstRecordableActionFound = false;
+
+        orderedWrappers = removeControlEventTimeGaps(orderedWrappers);
+
         for (EventWrapper eventWrapper : orderedWrappers) {
             if (eventWrapper.getType().equals(EventType.MOUSE_PRESS) ||
                     eventWrapper.getType().equals(EventType.KEYBOARD_PRESS)) {
                 firstRecordableActionFound = true;
             }
             if (firstRecordableActionFound) {
+
                 produceAction(eventWrapper, actions);
             }
         }
         return actions;
+    }
+
+    private List<EventWrapper> removeControlEventTimeGaps(List<EventWrapper> orderedWrappers) {
+        EventWrapper pauseRecordEventWrapper = null;
+        EventWrapper previousWrapper = null;
+        long deltaOne = 0;
+        long deltaTwo = 0;
+
+        for (EventWrapper currentWrapper : orderedWrappers) {
+            if (currentWrapper instanceof ControlKeyEventWrapper) {
+                //pause record button pressed
+                if (pauseRecordEventWrapper == null) {
+                    pauseRecordEventWrapper = currentWrapper;
+                    deltaOne = deltaOne == 0 ? pauseRecordEventWrapper.getWhen() - previousWrapper.getWhen() :
+                            deltaOne + pauseRecordEventWrapper.getWhen() - previousWrapper.getWhen();
+                } else {
+                    deltaTwo = deltaTwo == 0 ? currentWrapper.getWhen() - pauseRecordEventWrapper.getWhen() :
+                            deltaTwo + currentWrapper.getWhen() - pauseRecordEventWrapper.getWhen();
+                    pauseRecordEventWrapper = null;
+                }
+            } else {
+                previousWrapper = currentWrapper;
+            }
+        }
+        //todo: migth also filter out special action event wrappers
+        return orderedWrappers.stream().filter(w->!(w instanceof ControlKeyEventWrapper)).collect(Collectors.toList());
+
     }
 
     protected void produceAction(EventWrapper wrapper, List<Action> actions) {
