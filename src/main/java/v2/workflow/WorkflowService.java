@@ -45,10 +45,10 @@ public class WorkflowService {
         if (context.isRecording()) {
             //recording paused
             Log.info("Workflow recording paused...");
+            context.pauseRecording();
 
-            context.setRecording(false);
         } else {
-            context.setRecording(true);
+            context.startRecording();
             Log.info("Workflow recording started...");
         }
     }
@@ -66,25 +66,34 @@ public class WorkflowService {
         ApplicationContext context = ApplicationContext.getContext();
         if (!context.isExecuting()) {
             Log.info("Saving workflow...");
-            context.setRecording(false);
+            context.stopRecording();
+            context.setFirstClickKeyPressMade(false);
             Workflow wf = workflowRepository.getWorkflow();
             if (wf != null) {
                 List<Action> existingActions = wf.getActionList();
                 if (!existingActions.isEmpty()) {
-                    ActionOrderSequenceGenerator.setCurrent(existingActions.
-                            get(existingActions.size() - 1).getOrder());
+                    updateSequenceCounter(existingActions);
                     actions.addAll(existingActions);
                 } else {
                     ActionOrderSequenceGenerator.resetSequence();
                 }
             }
             wf = new Workflow();
-            actions.addAll(actionService.createActionsFromNativeEvents(KeyboardListener.getEvents(), MouseListener.getEvents(),KeyboardListener.getControlEvents(), true));
+            actions.addAll(actionService.createActionsFromNativeEvents(KeyboardListener.getEvents(), MouseListener.getEvents(), true));
             wf.setActionList(actions);
             workflowRepository.saveWorkflow(wf);
             context.setNewWorkflow(true);
             Log.info("Workflow record saved...");
         }
+    }
+
+    /**
+     * set sequence counter to the last action from existing workflow to continue workflow recording
+     * @param existingActions
+     */
+    private void updateSequenceCounter(List<Action> existingActions) {
+        ActionOrderSequenceGenerator.setCurrent(existingActions.
+                get(existingActions.size() - 1).getOrder());
     }
 
     public void executeWorkflowRecording() {

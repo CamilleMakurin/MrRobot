@@ -22,12 +22,14 @@ public class KeyAction implements Action {
     private ActionType actionType;
     private long when;
     private int order;
+    private long delay;
 
-    public KeyAction(ActionType actionType, int keyCode, long when) {
+    public KeyAction(ActionType actionType, int keyCode, long when, long delay) {
         this.when = when;
         this.actionType = actionType;
         this.keyCode = keyCode;
         this.order = ActionOrderSequenceGenerator.getNext();
+        this.delay = delay;
     }
 
     @Override

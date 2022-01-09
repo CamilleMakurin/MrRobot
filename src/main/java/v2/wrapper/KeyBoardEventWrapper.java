@@ -1,17 +1,24 @@
 package v2.wrapper;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.jnativehook.keyboard.NativeKeyEvent;
+import v2.ApplicationContext;
 
+@Getter
+@Setter
 public class KeyBoardEventWrapper implements EventWrapper<NativeKeyEvent> {
 
-    EventType eventType;
-    NativeKeyEvent keyEvent;
-    long when;
+    private EventType eventType;
+    private NativeKeyEvent keyEvent;
+    private long when;
+    private long delay;
 
     public KeyBoardEventWrapper(EventType eventType, NativeKeyEvent e) {
         this.eventType = eventType;
         this.keyEvent = e;
         this.when = keyEvent.getWhen();
+        this.delay = ApplicationContext.getContext().getDelay();
     }
 
     @Override

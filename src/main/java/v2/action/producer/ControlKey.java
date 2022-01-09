@@ -16,6 +16,13 @@ public enum ControlKey {
     private int actualKey;
     private int keyCode;
 
+    public static boolean isRecordingControlKey(int keyCode) {
+        return START_PAUSE_RECORDING.getKeyCode() == keyCode ||
+                SAVE_WORKFLOW.getKeyCode() == keyCode ||
+                EXECUTE_WORKFLOW.getKeyCode() == keyCode;
+    }
+
+
     public static boolean isControlKey(int keyCode) {
         for (ControlKey value : ControlKey.values()) {
             if (value.getKeyCode() == keyCode) {

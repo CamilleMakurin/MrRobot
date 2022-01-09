@@ -1,11 +1,13 @@
 package v2.wrapper;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jnativehook.keyboard.NativeKeyEvent;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class ControlKeyEventWrapper implements EventWrapper {
 
     EventType eventType;
@@ -16,6 +18,11 @@ public class ControlKeyEventWrapper implements EventWrapper {
         this.when = when;
     }
 
+    @Override
+    public long getDelay() {
+        //delay for control events is not counted and should not be used
+        return 0;
+    }
 
     @Override
     public EventType getType() {

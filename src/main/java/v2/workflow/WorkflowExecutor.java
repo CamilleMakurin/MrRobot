@@ -1,9 +1,7 @@
 package v2.workflow;
 
-import v2.action.ActionType;
 import v2.action.domain.Action;
 import v2.action.domain.SpecialAction;
-import v2.log.Log;
 
 import java.awt.*;
 import java.util.List;
@@ -36,7 +34,9 @@ public class WorkflowExecutor {
                 action.execute(robot);
             } else {
                 if (previousAction != null) {
-                    robot.delay(Math.toIntExact((action.getWhen() - previousAction.getWhen())));
+                    System.out.println("delta when: " + (action.getWhen() - previousAction.getWhen()));
+                    //robot.delay(Math.toIntExact((action.getWhen() - previousAction.getWhen())));
+                    robot.delay(Math.toIntExact(action.getDelay() ));
                 }
                 previousAction = action;
                 action.execute(robot);

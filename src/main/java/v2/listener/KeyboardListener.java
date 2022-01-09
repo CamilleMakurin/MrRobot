@@ -26,12 +26,18 @@ public class KeyboardListener implements NativeKeyListener {
     }
 
     public void nativeKeyPressed(NativeKeyEvent e) {
-        //System.out.println("key pressed: " + e.getKeyCode() + " char: " + e.getKeyChar());
-        if (ControlKey.isControlKey(e.getKeyCode())) {
+
+        if (ControlKey.isRecordingControlKey(e.getKeyCode())) {
+            System.out.println("key pressed: " + e.getKeyCode() + " : " + e.getWhen());
             controlEvents.add(new ControlKeyEventWrapper(e.getWhen()));
             processControlKey(e);
         } else {
-            if (ApplicationContext.getContext().isRecording()) {
+            ApplicationContext context = ApplicationContext.getContext();
+            if (context.isRecording()) {
+                //after recording is started(armed) the actual recording starts after first click or non-control key press
+                if (!context.isFirstClickKeyPressMade()) {
+                    context.trackFirstRecordableAction();
+                }
                 KeyBoardEventWrapper wrapper = new KeyBoardEventWrapper(EventType.KEYBOARD_PRESS, e);
                 events.add(wrapper);
             }
@@ -50,7 +56,7 @@ public class KeyboardListener implements NativeKeyListener {
 
     public void nativeKeyReleased(NativeKeyEvent e) {
         //ignore control key release
-        if (!ControlKey.isControlKey(e.getKeyCode()) && RecordAndPlay.isRecording) {
+        if (!ControlKey.isRecordingControlKey(e.getKeyCode()) && RecordAndPlay.isRecording) {
             KeyBoardEventWrapper wrapper = new KeyBoardEventWrapper(EventType.KEYBOARD_RELEASE, e);
             events.add(wrapper);
         }

@@ -23,6 +23,7 @@ public class SpecialAction implements Action {
     private Map<ActionAttribute, String> attributes;
     private int order;
     private long when;
+    private long delay;
 
     public SpecialAction(String name) {
         this.name = name;
@@ -33,6 +34,7 @@ public class SpecialAction implements Action {
         this.actionType = actionType;
         attributes = new HashMap<>();
         this.order = ActionOrderSequenceGenerator.getNext();
+        this.delay = delay;
     }
 
     @Override

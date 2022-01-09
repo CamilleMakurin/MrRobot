@@ -26,16 +26,18 @@ public class MouseAction implements Action {
     private int y;
     private ActionType actionType;
     private long when;
+    private long delay;
     private int order;
 
 
-    public MouseAction(ActionType actionType, MouseButton mouseButton, int x, int y, long when) {
+    public MouseAction(ActionType actionType, MouseButton mouseButton, int x, int y, long when, long delay) {
         this.actionType = actionType;
         this.mouseButton = mouseButton;
         this.x = x;
         this.y = y;
         this.when = when;
         this.order = ActionOrderSequenceGenerator.getNext();
+        this.delay = delay;
     }
 
     @Override

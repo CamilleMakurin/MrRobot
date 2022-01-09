@@ -21,21 +21,21 @@ public class ActionProducer {
     public Action produce(EventWrapper wrapper) {
         switch (wrapper.getType()) {
             case MOUSE_MOVE:
-                return mouseActionProducer.createMouseMoveAction((NativeMouseEvent) wrapper.getNativeEvent());
+                return mouseActionProducer.createMouseMoveAction(wrapper);
             case MOUSE_PRESS:
-                return mouseActionProducer.createMousePressAction((NativeMouseEvent) wrapper.getNativeEvent());
+                return mouseActionProducer.createMousePressAction(wrapper);
             case MOUSE_RELEASE:
-                return mouseActionProducer.createMouseReleaseAction((NativeMouseEvent) wrapper.getNativeEvent());
+                return mouseActionProducer.createMouseReleaseAction(wrapper);
             case MOUSE_DRAG:
-                return mouseActionProducer.createMouseDragAction((NativeMouseEvent) wrapper.getNativeEvent());
+                return mouseActionProducer.createMouseDragAction(wrapper);
             case KEYBOARD_PRESS:
                 return isSpecialActionInsertKey(wrapper) ?
-                        specialActionProducer.produceAction((NativeKeyEvent) wrapper.getNativeEvent()) :
-                        keyActionProducer.createKeyPressAction((NativeKeyEvent) wrapper.getNativeEvent());
+                        specialActionProducer.produceAction(wrapper) :
+                        keyActionProducer.createKeyPressAction(wrapper);
             case KEYBOARD_RELEASE:
                 //ignore special action
                 if (!isSpecialActionInsertKey(wrapper)) {
-                    return keyActionProducer.createKeyReleaseAction((NativeKeyEvent) wrapper.getNativeEvent());
+                    return keyActionProducer.createKeyReleaseAction(wrapper);
                 }
         }
         return null;

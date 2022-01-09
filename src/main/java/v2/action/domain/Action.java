@@ -16,6 +16,8 @@ public interface Action {
 
     long getWhen();
 
+    long getDelay();
+
     ActionType getActionType();
 
     int getOrder();
