@@ -79,7 +79,7 @@ public class WorkflowService {
                 }
             }
             wf = new Workflow();
-            actions.addAll(actionService.createActionsFromNativeEvents(KeyboardListener.getEvents(), MouseListener.getEvents(), true));
+            actions.addAll(actionService.createActionsFromNativeEvents(KeyboardListener.getEvents(),KeyboardListener.getSpecialActionEvents(),  MouseListener.getEvents(), true));
             wf.setActionList(actions);
             workflowRepository.saveWorkflow(wf);
             context.setNewWorkflow(true);

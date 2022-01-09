@@ -8,14 +8,16 @@ import org.jnativehook.keyboard.NativeKeyEvent;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ControlKeyEventWrapper implements EventWrapper {
+public class SpecialActionEventWrapper implements EventWrapper {
 
     EventType eventType;
     NativeKeyEvent keyEvent;
     long when;
 
-    public ControlKeyEventWrapper(long when) {
+    public SpecialActionEventWrapper(long when, NativeKeyEvent e) {
         this.when = when;
+        this.eventType = EventType.SPECIAL_EVENT;
+        this.keyEvent = e;
     }
 
     @Override
@@ -26,13 +28,11 @@ public class ControlKeyEventWrapper implements EventWrapper {
 
     @Override
     public EventType getType() {
-        System.out.println("There is no eventType for ControlKeyEventWrapper");
-        return null;
+        return eventType;
     }
 
     @Override
     public Object getNativeEvent() {
-        System.out.println("There is no NativeEvent for ControlKeyEventWrapper");
-        return null;
+        return eventType;
     }
 }

@@ -3,6 +3,7 @@ package v2.ui;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 import v2.ApplicationContext;
+import v2.action.configuration.SpecialActionConfigurationHolder;
 import v2.listener.KeyboardListener;
 import v2.listener.MouseListener;
 
@@ -16,6 +17,7 @@ public class ApplicationGUI {
 
     public void run(boolean enableGUI) {
         intitPeripheryListeners();
+        SpecialActionConfigurationHolder.initConfigurations();
         if (enableGUI){
             JFrame frame = new JFrame("My First GUI");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

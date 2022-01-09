@@ -24,7 +24,7 @@ public class ActionService {
 
     private ActionProducer actionProducer = new ActionProducer();
 
-    public List<Action> createActionsFromNativeEvents(List<EventWrapper> keyBoardEventWrappers, List<EventWrapper> mouseEventWrappers, boolean recordMouseMoves) {
+    public List<Action> createActionsFromNativeEvents(List<EventWrapper> keyBoardEventWrappers, List<EventWrapper> specialActionEvents, List<EventWrapper> mouseEventWrappers, boolean recordMouseMoves) {
         removeSimultaneousActions(keyBoardEventWrappers, mouseEventWrappers);
 
         //filter out mouse movements if mouse movement recording disabled
@@ -32,7 +32,7 @@ public class ActionService {
 
         List<Action> actions = new ArrayList<>();
         //order by when action happened
-        List<EventWrapper> allWrappers = ActionUtil.mergeAndSort(keyBoardEventWrappers, mouseEventWrappers);
+        List<EventWrapper> allWrappers = ActionUtil.mergeAndSort(keyBoardEventWrappers, specialActionEvents, mouseEventWrappers);
         boolean firstRecordableActionFound = false;
         for (EventWrapper eventWrapper : allWrappers) {
             if (eventWrapper.getType().equals(EventType.MOUSE_PRESS) ||

@@ -7,6 +7,7 @@ public enum EventType {
     KEYBOARD_PRESS,
     KEYBOARD_RELEASE,
     MOUSE_MOVE,
-    MOUSE_DRAG;
+    MOUSE_DRAG,
+    SPECIAL_EVENT;
 
 }

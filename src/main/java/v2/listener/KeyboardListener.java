@@ -7,7 +7,7 @@ import v2.ApplicationContext;
 import v2.action.producer.ControlKey;
 import v2.log.Log;
 import v2.ui.ControlKeyListener;
-import v2.wrapper.ControlKeyEventWrapper;
+import v2.wrapper.SpecialActionEventWrapper;
 import v2.wrapper.EventType;
 import v2.wrapper.EventWrapper;
 import v2.wrapper.KeyBoardEventWrapper;
@@ -18,18 +18,18 @@ import java.util.List;
 public class KeyboardListener implements NativeKeyListener {
 
     private static List<EventWrapper> events = new ArrayList<>();
-    private static List<EventWrapper> controlEvents = new ArrayList<>();
+    private static List<EventWrapper> specialActionEvents = new ArrayList<>();
 
     public static void resetEvents() {
         events = new ArrayList<>();
-        controlEvents = new ArrayList<>();
+        specialActionEvents = new ArrayList<>();
     }
 
     public void nativeKeyPressed(NativeKeyEvent e) {
 
         if (ControlKey.isRecordingControlKey(e.getKeyCode())) {
             System.out.println("key pressed: " + e.getKeyCode() + " : " + e.getWhen());
-            controlEvents.add(new ControlKeyEventWrapper(e.getWhen()));
+            specialActionEvents.add(new SpecialActionEventWrapper(e.getWhen()));
             processControlKey(e);
         } else {
             ApplicationContext context = ApplicationContext.getContext();
@@ -69,7 +69,7 @@ public class KeyboardListener implements NativeKeyListener {
         return events;
     }
 
-    public static List<EventWrapper> getControlEvents() {
-        return controlEvents;
+    public static List<EventWrapper> getSpecialActionEvents() {
+        return specialActionEvents;
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.jnativehook.keyboard.NativeKeyEvent;
 import v2.action.ActionAttribute;
 import v2.action.ActionOrderSequenceGenerator;
 import v2.action.ActionType;
@@ -18,33 +19,30 @@ import java.util.Map;
 @JsonDeserialize(as = SpecialAction.class)
 public class SpecialAction implements Action {
 
-    private String name;
     private ActionType actionType;
     private Map<ActionAttribute, String> attributes;
     private int order;
+    private int specialOrder;
     private long when;
     private long delay;
+    private NativeKeyEvent keyEvent;
 
-    public SpecialAction(String name) {
-        this.name = name;
-    }
-
-    public SpecialAction(String name, ActionType actionType) {
-        this.name = name;
-        this.actionType = actionType;
-        attributes = new HashMap<>();
+    public SpecialAction(NativeKeyEvent e) {
+        this.keyEvent = e;
+        this.actionType = ActionType.SPECIAL;
+        this.attributes = new HashMap<>();
         this.order = ActionOrderSequenceGenerator.getNext();
-        this.delay = delay;
+        this.specialOrder = ActionOrderSequenceGenerator.getNextSpecial();
     }
 
     @Override
     public void execute(Robot robot) {
-        System.out.println("Special action " + name + " executed.");
+        System.out.println("Special action  executed.");
     }
 
     @Override
     public void setAttributes(Map<ActionAttribute, String> attributes) {
-
+        this.attributes = attributes;
     }
 
     @Override

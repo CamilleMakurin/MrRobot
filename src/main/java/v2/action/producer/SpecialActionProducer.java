@@ -10,6 +10,6 @@ import v2.wrapper.EventWrapper;
 public class SpecialActionProducer {
 
     public Action produceAction(EventWrapper action) {
-        return new SpecialAction("SPECIAL_ACTION_" + ActionOrderSequenceGenerator.getNextSpecial());
+        return new SpecialAction((NativeKeyEvent) action);
     }
 }

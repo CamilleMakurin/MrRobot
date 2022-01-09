@@ -25,6 +25,11 @@ public class ActionOrderSequenceGenerator {
         currentSpecial = 0;
     }
 
+    public static void resetAllSequences(){
+        resetSequence();
+        resetSpecialSequence();
+    }
+
     public static void resetSequence() {
         current = 0;
     }

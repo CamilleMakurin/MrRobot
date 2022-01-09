@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class ActionUtil {
 
-    public static List<EventWrapper> mergeAndSort(List<EventWrapper> keyBoardEventWrappers, List<EventWrapper> mouseEventWrappers){
+    public static List<EventWrapper> mergeAndSort(List<EventWrapper> keyBoardEventWrappers, List<EventWrapper> specialActionEvents,List<EventWrapper> mouseEventWrappers){
         List<EventWrapper> allWrappers = new ArrayList<>();
         allWrappers.addAll(keyBoardEventWrappers);
         allWrappers.addAll(mouseEventWrappers);
