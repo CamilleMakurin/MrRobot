@@ -29,4 +29,8 @@ public class MouseActionProducer {
         return new MouseAction(ActionType.DRAG, null, e.getX(), e.getY(), e.getWhen(), w.getDelay());
 
     }
+
+    public Action generateMouseMoveAction(int x, int y, int when, int delay) {
+        return new MouseAction(ActionType.MOVE, null, x, y, when, delay);
+    }
 }

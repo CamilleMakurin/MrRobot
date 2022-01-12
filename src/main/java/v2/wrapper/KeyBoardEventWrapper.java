@@ -13,6 +13,7 @@ public class KeyBoardEventWrapper implements EventWrapper<NativeKeyEvent> {
     private NativeKeyEvent keyEvent;
     private long when;
     private long delay;
+    private boolean isLastBeforePause = false;
 
     public KeyBoardEventWrapper(EventType eventType, NativeKeyEvent e) {
         this.eventType = eventType;
@@ -39,6 +40,16 @@ public class KeyBoardEventWrapper implements EventWrapper<NativeKeyEvent> {
     @Override
     public NativeKeyEvent getNativeEvent() {
         return keyEvent;
+    }
+
+    @Override
+    public void setIsLastBeforePause(boolean isLastBeforePause) {
+        this.isLastBeforePause = isLastBeforePause;
+    }
+
+    @Override
+    public boolean isLastBeforePause() {
+        return isLastBeforePause;
     }
 
 }

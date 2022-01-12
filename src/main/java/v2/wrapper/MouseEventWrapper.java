@@ -15,6 +15,8 @@ public class MouseEventWrapper implements EventWrapper<NativeMouseEvent> {
     NativeMouseEvent mouseEvent;
     long when;
     long delay;
+    private boolean isLastBeforePause = false;
+
 
     public MouseEventWrapper(EventType eventType, NativeMouseEvent e) {
         this.mouseEvent = e;
@@ -41,5 +43,15 @@ public class MouseEventWrapper implements EventWrapper<NativeMouseEvent> {
     @Override
     public NativeMouseEvent getNativeEvent() {
         return mouseEvent;
+    }
+
+    @Override
+    public void setIsLastBeforePause(boolean isLastBeforePause) {
+        this.isLastBeforePause = isLastBeforePause;
+    }
+
+    @Override
+    public boolean isLastBeforePause() {
+        return isLastBeforePause;
     }
 }

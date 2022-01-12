@@ -29,7 +29,7 @@ public class KeyboardListener implements NativeKeyListener {
 
         if (ControlKey.isRecordingControlKey(e.getKeyCode())) {
             System.out.println("key pressed: " + e.getKeyCode() + " : " + e.getWhen());
-            specialActionEvents.add(new SpecialActionEventWrapper(e.getWhen()));
+            specialActionEvents.add(new SpecialActionEventWrapper(e.getWhen(), e));
             processControlKey(e);
         } else {
             ApplicationContext context = ApplicationContext.getContext();

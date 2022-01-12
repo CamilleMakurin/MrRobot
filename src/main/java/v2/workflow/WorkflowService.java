@@ -1,12 +1,14 @@
 package v2.workflow;
 
 import v2.action.ActionOrderSequenceGenerator;
+import v2.action.ActionUtil;
 import v2.listener.KeyboardListener;
 import v2.listener.MouseListener;
 import v2.log.Log;
 import v2.ApplicationContext;
 import v2.action.domain.Action;
 import v2.action.ActionService;
+import v2.wrapper.EventWrapper;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -46,11 +48,23 @@ public class WorkflowService {
             //recording paused
             Log.info("Workflow recording paused...");
             context.pauseRecording();
+            //set last event to create mouse move in paused recording gap
+            markLastEvent();
+
 
         } else {
             context.startRecording();
             Log.info("Workflow recording started...");
         }
+    }
+
+    /**
+     * Mark event as last before the recording was paused. Is used to generate mouse moves that were made during pause
+     */
+    private void markLastEvent() {
+        List<EventWrapper> eventWrappers = ActionUtil.mergeAndSort(KeyboardListener.getEvents(), KeyboardListener.getSpecialActionEvents(), MouseListener.getEvents());
+        EventWrapper eventWrapper = eventWrappers.get(eventWrappers.size() - 1);
+        eventWrapper.setIsLastBeforePause(true);
     }
 
     /**
@@ -79,7 +93,7 @@ public class WorkflowService {
                 }
             }
             wf = new Workflow();
-            actions.addAll(actionService.createActionsFromNativeEvents(KeyboardListener.getEvents(),KeyboardListener.getSpecialActionEvents(),  MouseListener.getEvents(), true));
+            actions.addAll(actionService.createActionsFromNativeEvents(KeyboardListener.getEvents(), KeyboardListener.getSpecialActionEvents(), MouseListener.getEvents(), true));
             wf.setActionList(actions);
             workflowRepository.saveWorkflow(wf);
             context.setNewWorkflow(true);
@@ -89,6 +103,7 @@ public class WorkflowService {
 
     /**
      * set sequence counter to the last action from existing workflow to continue workflow recording
+     *
      * @param existingActions
      */
     private void updateSequenceCounter(List<Action> existingActions) {

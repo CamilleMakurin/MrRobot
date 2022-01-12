@@ -13,6 +13,7 @@ public class SpecialActionEventWrapper implements EventWrapper {
     EventType eventType;
     NativeKeyEvent keyEvent;
     long when;
+    private boolean isLastBeforePause = false;
 
     public SpecialActionEventWrapper(long when, NativeKeyEvent e) {
         this.when = when;
@@ -34,5 +35,15 @@ public class SpecialActionEventWrapper implements EventWrapper {
     @Override
     public Object getNativeEvent() {
         return eventType;
+    }
+
+    @Override
+    public void setIsLastBeforePause(boolean isLastBeforePause) {
+        this.isLastBeforePause = isLastBeforePause;
+    }
+
+    @Override
+    public boolean isLastBeforePause() {
+        return isLastBeforePause;
     }
 }
