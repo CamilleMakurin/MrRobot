@@ -28,7 +28,7 @@ public class WorkflowMapper {
         try {
             return mapper.readValue(workflowJson, Workflow.class);
         } catch (IOException e) {
-            Log.error("Failed to json to workflow: " + e.getMessage());
+            Log.error("Failed to convert json to workflow: " + e.getMessage());
             return null;
         }
     }

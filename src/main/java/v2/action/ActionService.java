@@ -3,6 +3,7 @@ package v2.action;
 
 import v2.action.domain.Action;
 import v2.action.producer.ActionProducer;
+import v2.exception.GenericException;
 import v2.wrapper.EventType;
 import v2.wrapper.EventWrapper;
 
@@ -23,7 +24,7 @@ public class ActionService {
     private ActionProducer actionProducer = new ActionProducer();
 
 
-    public List<Action> createActionsFromNativeEvents(List<EventWrapper> keyBoardEventWrappers, List<EventWrapper> specialActionEvents, List<EventWrapper> mouseEventWrappers, boolean recordMouseMoves) {
+    public List<Action> createActionsFromNativeEvents(List<EventWrapper> keyBoardEventWrappers, List<EventWrapper> specialActionEvents, List<EventWrapper> mouseEventWrappers, boolean recordMouseMoves) throws GenericException {
         removeSimultaneousActions(keyBoardEventWrappers, mouseEventWrappers);
 
         //filter out mouse movements if mouse movement recording disabled
@@ -65,7 +66,7 @@ public class ActionService {
                 eventWrapper.getType().equals(EventType.MOUSE_DRAG);
     }
 
-    protected void produceAction(EventWrapper wrapper, List<Action> actions) {
+    protected void produceAction(EventWrapper wrapper, List<Action> actions) throws GenericException {
         actions.add(actionProducer.produceFromWrapper(wrapper));
     }
 
@@ -94,6 +95,4 @@ public class ActionService {
             }
         }
     }
-
-
 }

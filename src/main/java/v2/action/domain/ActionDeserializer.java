@@ -16,7 +16,7 @@ public class ActionDeserializer extends JsonDeserializer<Action> {
         ObjectMapper mapper = (ObjectMapper) jsonParser.getCodec();
         ObjectNode root = mapper.readTree(jsonParser);
 
-        if (root.has("name")) {
+        if (root.has("specialOrder")) {
             return mapper.readValue(root.toString(), SpecialAction.class);
         }
         if (root.has("keyCode")) {

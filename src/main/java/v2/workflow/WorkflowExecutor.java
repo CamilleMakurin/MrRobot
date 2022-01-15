@@ -34,9 +34,7 @@ public class WorkflowExecutor {
                 action.execute(robot);
             } else {
                 if (previousAction != null) {
-                    System.out.println("delta when: " + (action.getWhen() - previousAction.getWhen()));
-                    //robot.delay(Math.toIntExact((action.getWhen() - previousAction.getWhen())));
-                    robot.delay(Math.toIntExact(action.getDelay() ));
+                    robot.delay(Math.toIntExact(action.getDelay()));
                 }
                 previousAction = action;
                 action.execute(robot);

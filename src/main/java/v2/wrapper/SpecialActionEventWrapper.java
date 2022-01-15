@@ -33,8 +33,8 @@ public class SpecialActionEventWrapper implements EventWrapper {
     }
 
     @Override
-    public Object getNativeEvent() {
-        return eventType;
+    public NativeKeyEvent getNativeEvent() {
+        return keyEvent;
     }
 
     @Override

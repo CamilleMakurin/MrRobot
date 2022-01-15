@@ -5,6 +5,7 @@ import org.jnativehook.keyboard.NativeKeyListener;
 import v1.workflowRecorder.player.RecordAndPlay;
 import v2.ApplicationContext;
 import v2.action.producer.ControlKey;
+import v2.exception.GenericException;
 import v2.log.Log;
 import v2.ui.ControlKeyListener;
 import v2.wrapper.SpecialActionEventWrapper;
@@ -30,7 +31,11 @@ public class KeyboardListener implements NativeKeyListener {
         if (ControlKey.isRecordingControlKey(e.getKeyCode())) {
             System.out.println("key pressed: " + e.getKeyCode() + " : " + e.getWhen());
             specialActionEvents.add(new SpecialActionEventWrapper(e.getWhen(), e));
-            processControlKey(e);
+            try {
+                processControlKey(e);
+            } catch (GenericException genericException) {
+                genericException.printStackTrace();
+            }
         } else {
             ApplicationContext context = ApplicationContext.getContext();
             if (context.isRecording()) {
@@ -44,7 +49,7 @@ public class KeyboardListener implements NativeKeyListener {
         }
     }
 
-    private void processControlKey(NativeKeyEvent e) {
+    private void processControlKey(NativeKeyEvent e) throws GenericException {
         ControlKeyListener listener = ControlKeyListener.getInstance();
         ControlKey controlKey = ControlKey.valueFromInt(e.getKeyCode());
         if (controlKey == null) {

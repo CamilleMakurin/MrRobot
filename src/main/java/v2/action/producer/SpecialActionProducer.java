@@ -9,7 +9,7 @@ import v2.wrapper.EventWrapper;
 
 public class SpecialActionProducer {
 
-    public Action produceAction(EventWrapper action) {
-        return new SpecialAction((NativeKeyEvent) action);
+    public Action produceAction(EventWrapper wrapper) {
+        return new SpecialAction((NativeKeyEvent) wrapper.getNativeEvent());
     }
 }

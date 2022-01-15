@@ -9,10 +9,11 @@ import java.util.stream.Collectors;
 
 public class ActionUtil {
 
-    public static List<EventWrapper> mergeAndSort(List<EventWrapper> keyBoardEventWrappers, List<EventWrapper> specialActionEvents,List<EventWrapper> mouseEventWrappers){
+    public static List<EventWrapper> mergeAndSort(List<EventWrapper>... wrappers) {
         List<EventWrapper> allWrappers = new ArrayList<>();
-        allWrappers.addAll(keyBoardEventWrappers);
-        allWrappers.addAll(mouseEventWrappers);
+        for (List<EventWrapper> wrapperList : wrappers) {
+            allWrappers.addAll(wrapperList);
+        }
 
         List<EventWrapper> orderedWrappers = allWrappers.stream().
                 collect(Collectors.toMap(EventWrapper::getWhen, w -> w)).

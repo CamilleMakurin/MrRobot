@@ -2,6 +2,7 @@ package v2.workflow;
 
 import v2.action.ActionOrderSequenceGenerator;
 import v2.action.ActionUtil;
+import v2.exception.GenericException;
 import v2.listener.KeyboardListener;
 import v2.listener.MouseListener;
 import v2.log.Log;
@@ -59,10 +60,11 @@ public class WorkflowService {
     }
 
     /**
-     * Mark event as last before the recording was paused. Is used to generate mouse moves that were made during pause
+     * Mark event as last before the recording was paused. Is used to generate mouse moves that were made during pause.
+     * Only mouse events are considered
      */
     private void markLastEvent() {
-        List<EventWrapper> eventWrappers = ActionUtil.mergeAndSort(KeyboardListener.getEvents(), KeyboardListener.getSpecialActionEvents(), MouseListener.getEvents());
+        List<EventWrapper> eventWrappers = ActionUtil.mergeAndSort(MouseListener.getEvents());
         EventWrapper eventWrapper = eventWrappers.get(eventWrappers.size() - 1);
         eventWrapper.setIsLastBeforePause(true);
     }
@@ -76,7 +78,7 @@ public class WorkflowService {
      * with next sequence order.
      * If workflow does not exist - new workflow gets created
      */
-    public void stopWorkflowRecording() {
+    public void stopWorkflowRecording() throws GenericException {
         ApplicationContext context = ApplicationContext.getContext();
         if (!context.isExecuting()) {
             Log.info("Saving workflow...");

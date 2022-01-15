@@ -25,19 +25,18 @@ public class SpecialAction implements Action {
     private int specialOrder;
     private long when;
     private long delay;
-    private NativeKeyEvent keyEvent;
 
     public SpecialAction(NativeKeyEvent e) {
-        this.keyEvent = e;
         this.actionType = ActionType.SPECIAL;
         this.attributes = new HashMap<>();
         this.order = ActionOrderSequenceGenerator.getNext();
         this.specialOrder = ActionOrderSequenceGenerator.getNextSpecial();
+        this.delay = 10;
     }
 
     @Override
     public void execute(Robot robot) {
-        System.out.println("Special action  executed.");
+        System.out.println("Special action  executing");
     }
 
     @Override

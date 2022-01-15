@@ -5,10 +5,9 @@ import org.jnativehook.mouse.NativeMouseEvent;
 import v2.action.domain.Action;
 import v2.action.path.Coordinates;
 import v2.action.path.PathGenerator;
+import v2.exception.GenericException;
 import v2.wrapper.EventWrapper;
-import v2.wrapper.MouseEventWrapper;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +27,7 @@ public class ActionProducer {
         this.specialActionProducer = new SpecialActionProducer();
     }
 
-    public Action produceFromWrapper(EventWrapper wrapper) {
+    public Action produceFromWrapper(EventWrapper wrapper) throws GenericException {
         switch (wrapper.getType()) {
             case MOUSE_MOVE:
                 return mouseActionProducer.createMouseMoveAction(wrapper);
@@ -39,16 +38,23 @@ public class ActionProducer {
             case MOUSE_DRAG:
                 return mouseActionProducer.createMouseDragAction(wrapper);
             case KEYBOARD_PRESS:
-                return isSpecialActionInsertKey(wrapper) ?
-                        specialActionProducer.produceAction(wrapper) :
-                        keyActionProducer.createKeyPressAction(wrapper);
+                keyActionProducer.createKeyPressAction(wrapper);
             case KEYBOARD_RELEASE:
-                //ignore special action
+                //ignore special action (not sure if there are any though)
                 if (!isSpecialActionInsertKey(wrapper)) {
                     return keyActionProducer.createKeyReleaseAction(wrapper);
                 }
+            case SPECIAL_EVENT:
+                if (!isRecordingControlEvent(wrapper)) {
+                    return specialActionProducer.produceAction(wrapper);
+                }
+            default:
+                throw new GenericException("Failed to produce wrapper. Unknown wrapper type: " + wrapper);
         }
-        return null;
+    }
+
+    private boolean isRecordingControlEvent(EventWrapper wrapper) {
+        return ControlKey.isRecordingControlKey(((NativeKeyEvent) wrapper.getNativeEvent()).getKeyCode());
     }
 
     public List<Action> produceMoveActions(EventWrapper lastBeforePause, EventWrapper eventWrapper) {
