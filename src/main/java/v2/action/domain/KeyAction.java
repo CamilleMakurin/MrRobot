@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import v1.workflowRecorder.action.KeyMapping;
-import v2.action.ActionAttribute;
 import v2.action.ActionOrderSequenceGenerator;
 import v2.action.ActionType;
 

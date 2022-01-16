@@ -5,9 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jnativehook.keyboard.NativeKeyEvent;
-import v2.action.ActionAttribute;
 import v2.action.ActionOrderSequenceGenerator;
 import v2.action.ActionType;
+import v2.action.producer.ControlKey;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -25,13 +25,15 @@ public class SpecialAction implements Action {
     private int specialOrder;
     private long when;
     private long delay;
+    private ControlKey controlKey;
 
-    public SpecialAction(NativeKeyEvent e) {
+    public SpecialAction(NativeKeyEvent e, ControlKey controlKey) {
         this.actionType = ActionType.SPECIAL;
         this.attributes = new HashMap<>();
         this.order = ActionOrderSequenceGenerator.getNext();
         this.specialOrder = ActionOrderSequenceGenerator.getNextSpecial();
         this.delay = 10;
+        this.controlKey = controlKey;
     }
 
     @Override

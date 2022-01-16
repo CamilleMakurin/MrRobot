@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import v2.action.ActionAttribute;
 import v2.action.ActionOrderSequenceGenerator;
 import v2.action.ActionType;
 import v2.constant.MouseButton;
