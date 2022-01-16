@@ -7,6 +7,7 @@ import lombok.Setter;
 import v1.workflowRecorder.action.KeyMapping;
 import v2.action.ActionOrderSequenceGenerator;
 import v2.action.ActionType;
+import v2.constant.ActionAttribute;
 
 import java.awt.*;
 import java.util.Map;

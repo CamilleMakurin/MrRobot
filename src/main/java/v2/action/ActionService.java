@@ -2,6 +2,7 @@ package v2.action;
 
 
 import v2.action.domain.Action;
+import v2.action.duplicate.DuplicateRemover;
 import v2.action.producer.ActionProducer;
 import v2.exception.GenericException;
 import v2.wrapper.EventType;
@@ -9,6 +10,7 @@ import v2.wrapper.EventWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ActionService {
 
@@ -24,8 +26,9 @@ public class ActionService {
     private ActionProducer actionProducer = new ActionProducer();
 
 
-    public List<Action> createActionsFromNativeEvents(List<EventWrapper> keyBoardEventWrappers, List<EventWrapper> specialActionEvents, List<EventWrapper> mouseEventWrappers, boolean recordMouseMoves) throws GenericException {
-        removeSimultaneousActions(keyBoardEventWrappers, mouseEventWrappers);
+    public List<Action> createActionsFromNativeEvents(List<EventWrapper> keyBoardEventWrappers,
+                                                      List<EventWrapper> specialActionEvents, List<EventWrapper> mouseEventWrappers,
+                                                      boolean recordMouseMoves) throws GenericException {
 
         //filter out mouse movements if mouse movement recording disabled
         mouseEventWrappers.removeIf(next -> !recordMouseMoves && next.getType().equals(EventType.MOUSE_MOVE));
@@ -67,32 +70,14 @@ public class ActionService {
     }
 
     protected void produceAction(EventWrapper wrapper, List<Action> actions) throws GenericException {
-        actions.add(actionProducer.produceFromWrapper(wrapper));
-    }
-
-    private void removeSimultaneousActions(List<EventWrapper> keyBoardEventWrappers, List<EventWrapper> mouseEventWrappers) {
-        //update actions that have same "when" value so there are no actions that happen at the same time
-        //do it twice - dont remember why ???
-        searchForDuplicates(keyBoardEventWrappers, mouseEventWrappers);
-        searchForDuplicates(keyBoardEventWrappers, mouseEventWrappers);
-    }
-
-    private void searchForDuplicates(List<EventWrapper> keyBoardEventWrappers, List<EventWrapper> mouseEventWrappers) {
-        List<EventWrapper> all = new ArrayList<>();
-        all.addAll(keyBoardEventWrappers);
-        all.addAll(mouseEventWrappers);
-        for (int i = 0; i < all.size(); i++) {
-            EventWrapper current = all.get(i);
-            long when = current.getWhen();
-            for (int j = 0; j < all.size(); j++) {
-                EventWrapper tocheck = all.get(j);
-                long toCheckWhen = tocheck.getWhen();
-                if (j != i && toCheckWhen == when) {
-                    //  Log.info("Run " + runNumber + ": found duplicate. Adding +1");
-                    toCheckWhen = toCheckWhen + 1;
-                    tocheck.setWhen(toCheckWhen);
-                }
-            }
+        Action action = actionProducer.produceFromWrapper(wrapper);
+        //TODO: replace with optional to remove null check OR move check of isRecordingControlKey press to this method
+        /*Optional<Action> action1 = Optional.of(action);
+        action1.ifPresent(actions::add);*/
+        if (action != null) {
+            actions.add(action);
         }
     }
+
+
 }

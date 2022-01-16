@@ -6,6 +6,7 @@ import v2.action.domain.Action;
 import v2.action.path.Coordinates;
 import v2.action.path.PathGenerator;
 import v2.exception.GenericException;
+import v2.wrapper.EventType;
 import v2.wrapper.EventWrapper;
 
 import java.util.Collections;
@@ -48,9 +49,12 @@ public class ActionProducer {
                 if (!isRecordingControlEvent(wrapper)) {
                     return specialActionProducer.produceAction(wrapper);
                 }
+                break;
             default:
-                throw new GenericException("Failed to produce wrapper. Unknown wrapper type: " + wrapper);
+                throw new GenericException("Failed to produce wrapper. Unknown wrapper type: " + wrapper.getType());
+
         }
+        return null;
     }
 
     private boolean isRecordingControlEvent(EventWrapper wrapper) {
@@ -72,7 +76,8 @@ public class ActionProducer {
     }
 
     private boolean isSpecialActionInsertKey(EventWrapper wrapper) {
-        return ControlKey.INSERT_SPECIAL_ACTION.getKeyCode() == ((NativeKeyEvent) wrapper.getNativeEvent()).getKeyCode();
+        NativeKeyEvent nativeEvent = (NativeKeyEvent) wrapper.getNativeEvent();
+        return ControlKey.isSpecActionInsertKey(nativeEvent.getKeyCode());
     }
 
 }

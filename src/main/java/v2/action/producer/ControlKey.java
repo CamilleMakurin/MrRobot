@@ -34,6 +34,13 @@ public enum ControlKey {
                 EXECUTE_WORKFLOW.getKeyCode() == keyCode;
     }
 
+    public static boolean isSpecActionInsertKey(int keyCode) {
+        return SPEC_SLEEP.getKeyCode() == keyCode ||
+                SPEC_COPY.getKeyCode() == keyCode ||
+                SPEC_PASTE.getKeyCode() == keyCode ||
+                SPEC_EXECUTE_FILE.getKeyCode() == keyCode;
+    }
+
 
     public static boolean isControlKey(int keyCode) {
         for (ControlKey value : ControlKey.values()) {

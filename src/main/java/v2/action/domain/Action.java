@@ -2,6 +2,7 @@ package v2.action.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import v2.action.ActionType;
+import v2.constant.ActionAttribute;
 
 import java.awt.*;
 import java.util.Map;

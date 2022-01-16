@@ -1,5 +1,6 @@
 package v2.action;
 
+import v2.action.duplicate.DuplicateRemover;
 import v2.wrapper.EventWrapper;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class ActionUtil {
         for (List<EventWrapper> wrapperList : wrappers) {
             allWrappers.addAll(wrapperList);
         }
-
+        DuplicateRemover.getInstance().removeSimultaneousActions(allWrappers);
         List<EventWrapper> orderedWrappers = allWrappers.stream().
                 collect(Collectors.toMap(EventWrapper::getWhen, w -> w)).
                 entrySet().stream().

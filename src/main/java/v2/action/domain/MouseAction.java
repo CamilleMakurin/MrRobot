@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 import v2.action.ActionOrderSequenceGenerator;
 import v2.action.ActionType;
+import v2.constant.ActionAttribute;
 import v2.constant.MouseButton;
 
 import java.awt.*;

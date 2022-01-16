@@ -1,5 +1,7 @@
 package v2.action.configuration;
 
+import v2.constant.ActionAttribute;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

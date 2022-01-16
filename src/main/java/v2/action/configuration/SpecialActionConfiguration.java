@@ -2,6 +2,7 @@ package v2.action.configuration;
 
 import lombok.Getter;
 import lombok.Setter;
+import v2.constant.ActionAttribute;
 
 import java.util.HashMap;
 import java.util.Map;
