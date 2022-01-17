@@ -35,8 +35,13 @@ public class Timer {
     }
 
     public long doDelta() {
+
+
         if (previousTime != 0) {
-            return watch.getTime() - previousTime;
+            long delay = watch.getTime() - previousTime;
+            previousTime = watch.getTime();
+            return delay;
+
         }
         previousTime = watch.getTime();
         return 0;

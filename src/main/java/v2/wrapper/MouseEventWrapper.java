@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jnativehook.mouse.NativeMouseEvent;
 import v2.ApplicationContext;
+import v2.log.Log;
 
 @Getter
 @Setter
@@ -22,7 +23,8 @@ public class MouseEventWrapper implements EventWrapper<NativeMouseEvent> {
         this.mouseEvent = e;
         this.eventType = eventType;
         this.when = mouseEvent.getWhen();
-        this.delay = ApplicationContext.getContext().getDelay();
+        long d = ApplicationContext.getContext().getDelay();
+        this.delay = d;
     }
 
     @Override

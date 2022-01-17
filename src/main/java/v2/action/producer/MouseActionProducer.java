@@ -5,6 +5,7 @@ import v2.action.ActionType;
 import v2.constant.MouseButton;
 import v2.action.domain.Action;
 import v2.action.domain.MouseAction;
+import v2.log.Log;
 import v2.wrapper.EventWrapper;
 
 public class MouseActionProducer {
