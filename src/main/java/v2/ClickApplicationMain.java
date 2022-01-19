@@ -1,11 +1,13 @@
 package v2;
 
-import v2.ui.ApplicationGUI;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import v2.core.ui.ApplicationGUI;
 
+@SpringBootApplication
 public class ClickApplicationMain {
 
     public static void main(String[] args)   {
-        ApplicationGUI application = new ApplicationGUI();
-        application.run(false);
+        SpringApplication.run(ClickApplicationMain.class);
     }
 }
