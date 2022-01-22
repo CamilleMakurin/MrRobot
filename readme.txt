@@ -21,3 +21,14 @@ first click is done or first key (except control keys) is pressed.
 After first click or key press the timer starts which is used to calculate delay duration between actions.
 When recording is paused timer stops, events are not recorded anymore. After recording is armed again recording is started
 also after firs click or key press, also only after the timer is resumed.
+
+TODO's:
+1.Store workflows, wfConfigs and city data in DB
+2.Concurrent multiple workflow execution
+3.web UI (of what?)
+4.API (of what?)
+5.Generate random mouse movement paths
+6.Randomise mouse click position
+7.Add curved generated moused movement paths
+8.Use mouse movements from recorded mouse movement pool
+

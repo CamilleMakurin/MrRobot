@@ -4,7 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
-import v2.core.ui.ApplicationGUI;
+import v2.core.ui.Application;
 
 /**
  * Application startup initialization.
@@ -16,8 +16,8 @@ public class ApplicationInitializer implements ApplicationListener<ContextRefres
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         ApplicationContext applicationContext = event.getApplicationContext();
-        ApplicationGUI bean = applicationContext.getBean(ApplicationGUI.class);
-        bean.run(false);
+        Application bean = applicationContext.getBean(Application.class);
+        bean.run();
 
     }
 }

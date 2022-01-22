@@ -1,0 +1,1 @@
+{"wfName":"output.txt","actionList":[{"keyCode":52,"actionType":"RELEASE","when":1642785346039,"order":10,"delay":0},{"keyCode":57,"actionType":"RELEASE","when":1642785346240,"order":30,"delay":179},{"keyCode":3663,"actionType":"RELEASE","when":1642785346726,"order":50,"delay":488},{"keyCode":28,"actionType":"RELEASE","when":1642785346957,"order":70,"delay":232}]}

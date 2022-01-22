@@ -3,7 +3,12 @@ package v2.core.workflow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import v2.core.action.ActionOrderSequenceGenerator;
+import v2.core.action.ActionType;
 import v2.core.action.ActionUtil;
+import v2.core.action.domain.SpecialAction;
+import v2.core.action.wfconfig.SpecialActionConfig;
+import v2.core.action.wfconfig.WFConfigRepository;
+import v2.core.action.wfconfig.WorkflowConfig;
 import v2.core.exception.GenericException;
 import v2.core.listener.KeyboardListener;
 import v2.core.listener.MouseListener;
@@ -20,17 +25,21 @@ import java.util.List;
 @Component
 public class WorkflowService {
 
-    private ActionService actionService;
-    private WorkflowRepository workflowRepository;
-    private WorkflowExecutor workflowExecutor;
+    private final ActionService actionService;
+    private final WorkflowRepository workflowRepository;
+    private final WorkflowExecutor workflowExecutor;
+    private final WFConfigRepository wfConfigRepository;
+
 
     public static List<Action> actions = new ArrayList<>();
 
     @Autowired
-    public WorkflowService(ActionService actionService, WorkflowRepository workflowRepository, WorkflowExecutor workflowExecutor) {
+    public WorkflowService(ActionService actionService, WorkflowRepository workflowRepository,
+                           WorkflowExecutor workflowExecutor, WFConfigRepository wfConfigRepository) {
         this.actionService = actionService;
         this.workflowRepository = workflowRepository;
         this.workflowExecutor = workflowExecutor;
+        this.wfConfigRepository = wfConfigRepository;
     }
 
     public void startWorkflowRecording() {
@@ -89,12 +98,39 @@ public class WorkflowService {
                 }
             }
             wf = new Workflow();
+            wf.setWfName(context.getWorkflowName());
             actions.addAll(actionService.createActionsFromNativeEvents(KeyboardListener.getEvents(), KeyboardListener.getSpecialActionEvents(), MouseListener.getEvents(), true));
+
+            //TODO: this is a workaround for issue with action order. Possible fix to set all orders after actions are created.
+            resetSpecialActionsOrder(actions);
+            loadConfigs(wf, actions);
+
             wf.setActionList(actions);
             workflowRepository.saveWorkflow(wf);
             context.setNewWorkflow(true);
             Log.info("Workflow record saved...");
         }
+    }
+
+    private void loadConfigs(Workflow wf, List<Action> actions) {
+        actions.stream().filter(a -> ActionType.SPECIAL == a.getActionType()).
+                map(a -> (SpecialAction) a).
+                forEach(a -> wfConfigRepository.getWorkflowConfig(wf.getWfName()).
+                        getSpecActionConfigs().
+                        stream().
+                        filter(c -> c.getSpecialOrder() == a.getSpecialOrder()).
+                        findFirst().ifPresent(c -> a.setAttributes(c.getAttributes())));
+    }
+
+
+    private void resetSpecialActionsOrder(List<Action> actions) {
+        ActionOrderSequenceGenerator.resetSpecialSequence();
+        for (Action action : actions) {
+            if (ActionType.SPECIAL == action.getActionType()) {
+
+            }
+        }
+
     }
 
     /**

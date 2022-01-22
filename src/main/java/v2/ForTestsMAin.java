@@ -7,7 +7,6 @@ public class ForTestsMAin {
 
     public static void main(String[] args) throws Exception {
         makeScreenshot();
-
     }
 
     private static void makeScreenshot() throws AWTException {

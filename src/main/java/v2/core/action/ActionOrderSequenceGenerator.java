@@ -20,11 +20,6 @@ public class ActionOrderSequenceGenerator {
         return returnValue;
     }
 
-    public static void resetAllCounters() {
-        current = 0;
-        currentSpecial = 0;
-    }
-
     public static void resetAllSequences(){
         resetSequence();
         resetSpecialSequence();

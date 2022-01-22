@@ -8,6 +8,7 @@ import v2.core.workflow.Timer;
 import javax.swing.*;
 
 @Getter
+
 @Setter
 public class ApplicationContext {
 

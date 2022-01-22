@@ -3,6 +3,7 @@ package v2.core.workflow;
 import org.springframework.stereotype.Component;
 import v2.core.action.domain.Action;
 import v2.core.action.domain.SpecialAction;
+import v2.core.action.wfconfig.WorkflowConfig;
 import v2.core.log.Log;
 
 import java.awt.*;

@@ -1,7 +1,9 @@
 package v2.core.action.domain.special;
 
+import org.springframework.stereotype.Component;
 import v2.core.action.producer.ControlKey;
 
+@Component
 public class SpecialExecutorFactory {
 
     public SpecialActionExecutor getExecutor(ControlKey key) {
@@ -16,5 +18,4 @@ public class SpecialExecutorFactory {
                 return new SleepActionExecutor();
         }
     }
-
 }

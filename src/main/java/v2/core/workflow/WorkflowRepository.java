@@ -4,7 +4,7 @@ package v2.core.workflow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import v2.core.ApplicationContext;
-import v2.core.constant.Configuration;
+import v2.configuration.Configuration;
 import v2.core.log.Log;
 
 import java.io.IOException;

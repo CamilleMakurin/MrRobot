@@ -1,6 +1,6 @@
 package v2.core.action.domain.special;
 
-import v1.workflowRecorder.constant.ActionAttribute;
+import v2.core.constant.ActionAttribute;
 import v2.core.log.Log;
 
 import java.awt.*;
@@ -20,7 +20,7 @@ public class SleepActionExecutor implements SpecialActionExecutor {
     public static final int MAX_SLEEP_TIME = 30000;
 
     @Override
-    public void execute(Robot robot, Map<v2.core.constant.ActionAttribute, String> attributes) {
+    public void execute(Robot robot, Map<ActionAttribute, String> attributes) {
 
         String value = attributes.get(ActionAttribute.SLEEP_TIME);
         int sleepTime = Integer.parseInt(value);
